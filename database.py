@@ -1,10 +1,8 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-SQLCHEMY_DATABASE_URL="sqlite:///./patient.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./patient.db"
 
-engine = create_engine(SQLCHEMY_DATABASE_URL, connect_args={"check_same_thread":False})
-
-sessionlocal=sessionmaker(bind=engine, autoflush=False, autocommit=False)
-base=declarative_base()
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+sessionlocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+Base = declarative_base()

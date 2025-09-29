@@ -1,29 +1,31 @@
-from pydantic import BaseModel,Field,EmailStr
-from typing import Annotated,Optional,Literal
+from pydantic import BaseModel, Field, EmailStr
+from typing import Annotated, Optional, Literal
 
-class patient_base(BaseModel):
+class PatientBase(BaseModel):
     name: Annotated[str, Field(..., description="Name of the patient")]
-    email:Annotated[EmailStr, Field(..., description="email of the patient")]
-    address:Optional[str]= Field(None, description='Address of user')
+    email: Annotated[EmailStr, Field(..., description="Email of the patient")]
+    address: Optional[str] = Field(None, description="Address of patient")
     age: Annotated[int, Field(gt=0)]
-    gender: Annotated[Literal['male', 'female', 'other'], Field(..., description='gender of the patient')]
-    height: Annotated[float, Field(..., gt=0, description='height in meters', json_schema_extra={"example": 1.75})]
-    weight: Annotated[float, Field(..., gt=0, description='weight in kg', json_schema_extra={"example": 70})]
+    gender: Annotated[Literal['male','female','other'], Field(...)]
+    height: Annotated[float, Field(..., gt=0, description="Height in meters")]
+    weight: Annotated[float, Field(..., gt=0, description="Weight in kg")]
 
-class EmployeeCreate(patient_base):
-    pass 
+class PatientCreate(PatientBase):
+    pass
 
-class EmployeeUpdate(patient_base):
+class PatientUpdate(BaseModel):
     name: Optional[str] = None
-    city: Optional[str] = None
-    age: Optional[int] = None
-    gender: Optional[Literal['male', 'female', 'other']] = None
-    height: Optional[float] = Field(default=None, gt=0)
-    weight: Optional[float] = Field(default=None, gt=0)
+    email: Optional[EmailStr] = None
+    address: Optional[str] = None
+    age: Optional[int] = Field(None, gt=0)
+    gender: Optional[Literal['male','female','other']] = None
+    height: Optional[float] = Field(None, gt=0, description="Height in meters")
+    weight: Optional[float] = Field(None, gt=0, description="Weight in kg")
 
-class EmployeeOut(patient_base):
-    id:int
+class PatientOut(PatientBase):
+    id: int
+    bmi: Optional[float] = None
+    verdict: Optional[str] = None
 
     class Config:
-        orm_mode=True
-
+        from_attributes = True 
