@@ -4,10 +4,12 @@ from database import base
 class Patient_db(base):
     __tablename__ = "patient_db"  
 
+    id = Column(Integer, primary_key=True)
     name = Column(String, primary_key=True)
-    city = Column(String)
-    age = Column(Integer, primary_key=True)
-    gender = Column(String, primary_key=True)
+    email= Column(String, primary_key=True)
+    address = Column(String)
+    age = Column(Integer)
+    gender = Column(String)
     height = Column(Float)
     weight = Column(Float)
 
