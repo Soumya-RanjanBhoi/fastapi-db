@@ -13,15 +13,12 @@ class Patient_db(base):
 
     bmi = Column(Float, Computed("weight / (height * height)"))
 
-    @property
-    def verdict(self) -> str:
-        if self.bmi is None:
-            return None
-        if self.bmi < 18.5:
-            return "underweight"
-        elif self.bmi < 25:
-            return "normal"
-        elif self.bmi < 30:
-            return "overweight"
-        else:
-            return "obese"
+    verdict = Column(String,
+    Computed(
+        "CASE "
+        "WHEN weight / (height * height) < 18.5 THEN 'underweight' "
+        "WHEN weight / (height * height) < 25 THEN 'normal' "
+        "WHEN weight / (height * height) < 30 THEN 'overweight' "
+        "ELSE 'obese' END"
+    )
+)
